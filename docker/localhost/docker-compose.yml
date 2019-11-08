@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  mysql:
+    hostname: db
+    container_name: db
+    build: ./mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: docker
+
+  php-apache:
+    hostname: app
+    container_name: app
+    build: ./php-apache
+    ports:
+      - '3000:80'
+    volumes:
+      # DocumentRoot
+      - ../../localhost/var/www:/var/www
+      # Apache2 Logs
+      - ./php-apache/data/log:/host/log
+    depends_on:
+      - mysql
+
+  phpmyadmin:
+    hostname: pma
+    container_name: pma
+    build: ./phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    links:
+      - mysql
+    ports:
+      - '8080:80'
+    volumes:
+      - /sessions
