@@ -6,8 +6,9 @@
 
 ## docker-compose ビルド
 
+/docker/localhost ディレクトリに移動して
+
 ```
-# /docker/localhost ディレクトリに移動して
 $ docker-compose build --no-cache
 ```
 
