@@ -1,4 +1,4 @@
-# docker-for-apachedocker-for-php7.3-apache
+# docker-for-php7.3-apache
 
 - Apache
 - PHP 7.3
