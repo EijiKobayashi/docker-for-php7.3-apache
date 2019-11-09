@@ -53,8 +53,8 @@ RUN a2enmod include
 RUN ln -s /etc/apache2/mods-available/vhost_alias.load /etc/apache2/mods-enabled
 RUN echo ServerName $HOSTNAME > /etc/apache2/conf-available/fqdn.conf && a2enconf fqdn
 
-COPY ./memolead.localhost.conf /etc/apache2/sites-available
-RUN a2ensite memolead.localhost.conf
+COPY ./localhost.conf /etc/apache2/sites-available
+RUN a2ensite localhost.conf
 RUN a2dissite 000-default
 
 EXPOSE 80
