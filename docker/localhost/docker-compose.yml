@@ -29,6 +29,11 @@ services:
     depends_on:
       - mysql
 
+  memcached:
+    image: memcached:latest
+    ports:
+      - '11212:11211'
+
   phpmyadmin:
     hostname: pma
     container_name: pma

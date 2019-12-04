@@ -25,7 +25,9 @@ RUN apt-get update && apt-get install -y \
   libjpeg62-turbo-dev \
   libmagickwand-dev \
   libzip-dev \
-  libmcrypt-dev
+  libmcrypt-dev \
+  libmemcached-dev \
+  zlib1g-dev
 
 # install php extension
 RUN docker-php-ext-install pdo_mysql
@@ -46,6 +48,18 @@ RUN docker-php-ext-install iconv
 RUN docker-php-ext-install simplexml
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
+RUN pecl install memcached-3.1.4
+RUN docker-php-ext-enable memcached opcache
+
+# Xdiff install
+RUN curl -L -o /tmp/xdiff.tar.gz 'http://www.xmailserver.org/libxdiff-0.23.tar.gz' \
+  && mkdir -p /usr/src/xdiff \
+  && tar -C /usr/src/xdiff -zxvf /tmp/xdiff.tar.gz --strip 1 \
+  && rm /tmp/xdiff.tar.gz \
+  && cd /usr/src/xdiff \
+  && ./configure  && make && make install \
+  \
+  &&  pecl install xdiff-2.0.1 && docker-php-ext-enable xdiff
 
 RUN a2enmod rewrite
 RUN a2enmod headers
